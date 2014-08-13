@@ -60,7 +60,6 @@ class GetAllPoint(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(point.z)
             self.response.write("\n")
-#my random comment again
                         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),    
