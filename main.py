@@ -219,9 +219,9 @@ app = webapp2.WSGIApplication([
     ('/getallrotations', GetAllRotation),
     ('/addlinacc', AddLinearAcceleration),
     ('/getlinacc', GetLinearAccelerationById),
-    ('/getalllinacc', GetAllLinearAcceleration),
+    ('/getalllinaccs', GetAllLinearAcceleration),
     ('/addcom', AddCompass),
     ('/getcom', GetCompassById),
-    ('/getalllcom', GetAllCompass)
+    ('/getallcoms', GetAllCompass)
 
 ], debug=True)
