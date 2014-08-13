@@ -60,7 +60,7 @@ class GetAllPoint(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(point.z)
             self.response.write("\n")
-#hello joe
+#hello jane
                         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),    
