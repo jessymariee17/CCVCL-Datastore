@@ -98,7 +98,7 @@ class GetRotationById(webapp2.RequestHandler):
 
 class GetAllRotation(webapp2.RequestHandler):
     def get(self):
-        rotation_list = Rotation.query().order(-Rotation.seqid)
+        rotation_list = Rotation.query().order(Rotation.seqid)
         for rotation in rotation_list: 
             self.response.write(rotation.rotX)
             self.response.write(",")
@@ -146,7 +146,7 @@ class GetLinearAccelerationById(webapp2.RequestHandler):
 
 class GetAllLinearAcceleration(webapp2.RequestHandler):
     def get(self):
-        linear_acceleration_list = LinearAcceleration.query().order(-LinearAcceleration.seqid)
+        linear_acceleration_list = LinearAcceleration.query().order(LinearAcceleration.seqid)
         for linear_acceleration in linear_acceleration_list: 
             self.response.write(linear_acceleration.linaccX)
             self.response.write(",")
@@ -192,7 +192,7 @@ class GetCompassById(webapp2.RequestHandler):
 
 class GetAllCompass(webapp2.RequestHandler):
     def get(self):
-        compass_list = Compass.query().order(-Compass.seqid)
+        compass_list = Compass.query().order(Compass.seqid)
         for compass in compass_list: 
             self.response.write(compass.comX)
             self.response.write(",")
