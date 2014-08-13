@@ -204,7 +204,7 @@ class GetAllCompass(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(compass.timestamp)
             self.response.write("\n")
-            
+        
                         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),    
