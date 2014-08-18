@@ -19,6 +19,19 @@ class GetMessageById(webapp2.RequestHandler):
     def get(self):
         message = Message.get_by_id(int(self.request.get('id')))
         self.response.write(message.data)
+
+class DeleteSpecificMessageById(webapp2.RequestHandler):
+	def get(self):
+		message=Message.get_by_id(int(self.request.get('id')))
+		message.key.delete()
+		self.response.write("specific 'id' deleted")
+
+class DeleteAllMessageById(webapp2.RequestHandler):
+	def get(self):
+		message_list=Message.query()
+		for message in message_list:
+			message.key.delete()
+		self.response.write('all input deleted')
         
 class GetAll(webapp2.RequestHandler):
     def get(self):
@@ -221,6 +234,8 @@ app = webapp2.WSGIApplication([
     ('/getalllinaccs', GetAllLinearAcceleration),
     ('/addcom', AddCompass),
     ('/getcom', GetCompassById),
-    ('/getallcoms', GetAllCompass)
+    ('/getallcoms', GetAllCompass),
+    ('/deletespecific',DeleteSpecificMessageById),
+    ('/deleteall',DeleteAllMessageById)
 
 ], debug=True)
