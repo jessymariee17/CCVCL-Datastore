@@ -26,7 +26,18 @@ class GetAll(webapp2.RequestHandler):
         for message in message_list: 
             self.response.write(message.data)
             self.response.write("\n")
-                        
+
+class Delete(webapp2.RequestHandler):
+    def get(self):
+        message_list = Message.query()
+        for message in message_list:
+            message.key.delete() 
+            
+class DeleteOne(webapp2.RequestHandler):
+    def get(self):
+        message = Message.get_by_id(int(self.request.get('id')))
+        message.key.delete() 
+                                                                                                     
 class Point(ndb.Model):
     x = ndb.FloatProperty() 
     y = ndb.FloatProperty() 
@@ -204,7 +215,6 @@ class GetAllCompass(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(compass.timestamp)
             self.response.write("\n")
-        
                         
 app = webapp2.WSGIApplication([
     ('/', MainHandler),    
@@ -222,6 +232,8 @@ app = webapp2.WSGIApplication([
     ('/getalllinaccs', GetAllLinearAcceleration),
     ('/addcom', AddCompass),
     ('/getcom', GetCompassById),
-    ('/getallcoms', GetAllCompass)
+    ('/getallcoms', GetAllCompass),
+    ('/delete', Delete),
+    ('/delete1', DeleteOne)
 
 ], debug=True)
