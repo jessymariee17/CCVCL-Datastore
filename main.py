@@ -179,6 +179,12 @@ class GetAllRotation(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(rotation.timestamp)
             self.response.write("\n")
+            
+class DeleteAllRotations(webapp2.RequestHandler):
+    def delete(self):
+        rotation_list = Rotation.query()
+        for rotation in rotation_list:
+            rotation.key.delete() 
 
 class LinearAcceleration(ndb.Model):
     linaccX = ndb.FloatProperty() 
@@ -225,7 +231,14 @@ class GetAllLinearAcceleration(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(linear_acceleration.timestamp)
             self.response.write("\n")
-            
+
+          
+class DeleteAllLinearAccelerations(webapp2.RequestHandler):
+    def delete(self):
+        linear_acceleration_list = LinearAcceleration.query()
+        for linearacc in linear_acceleration_list:
+            linearacc.key.delete() 
+
 class Compass(ndb.Model):
     comX = ndb.FloatProperty() 
     comY = ndb.FloatProperty() 
@@ -271,6 +284,12 @@ class GetAllCompass(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(compass.timestamp)
             self.response.write("\n")
+            
+class DeleteAllCompass(webapp2.RequestHandler):
+    def delete(self):
+        compass_list = Compass.query()
+        for compass in compass_list:
+            compass.key.delete() 
 
 
 app = webapp2.WSGIApplication([
@@ -293,9 +312,13 @@ app = webapp2.WSGIApplication([
     ('/getcom', GetCompassById),
     ('/getallcoms', GetAllCompass),
     ('/delete', Delete),
-    ('/delete1', DeleteOne)
+    ('/delete1', DeleteOne),
     ('/deletespecific',DeleteSpecificMessageById),
     ('/deleteall',DeleteAllMessageById),
-    ('/modifyspecific', ModifySpecificMessageById)
+    ('/modifyspecific', ModifySpecificMessageById),
+    ('/deleteallrot',DeleteAllRotations),
+    ('/deleteallline',DeleteAllLinearAccelerations),
+    ('/deleteallcom',DeleteAllCompass)
+    
 
 ], debug=True)
