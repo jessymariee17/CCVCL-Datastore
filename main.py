@@ -8,6 +8,42 @@ class MainHandler(webapp2.RequestHandler):
 class Message(ndb.Model):
     data = ndb.StringProperty()    
 
+class MessageHandler(webapp2.RequestHandler):
+    def post(self):
+        message = Message()
+        message.data = self.request.get('data')
+        key=message.put()
+        self.response.write(key.id())
+    
+    def get(self):
+        message_list = Message.query()
+        for message in message_list: 
+            self.response.write(message.data)
+            self.response.write("\n")   
+        
+    def delete(self):
+        message_list=Message.query()
+        for message in message_list:
+            message.key.delete()
+        self.response.write('all input deleted')
+        
+class MessageHandlerById(webapp2.RequestHandler):
+    def get(self, message_id):
+        message = Message.get_by_id(int(message_id))
+        self.response.write('your data id is %s' % message_id)
+        self.response.write(message.data)
+        
+    def put(self, message_id):
+        message=Message.get_by_id(int(message_id))
+        message.data=self.request.get('data')
+        message.put()
+        self.response.write('id data replaced.' 'the replacement id is %s' % message_id)
+        
+    def delete(self, message_id):
+        message=Message.get_by_id(int(message_id))
+        message.key.delete()
+        self.response.write('specific id deleted is %s' % message_id)
+     
 class AddMessage(webapp2.RequestHandler):
     def post(self):
         message = Message()
@@ -19,6 +55,26 @@ class GetMessageById(webapp2.RequestHandler):
     def get(self):
         message = Message.get_by_id(int(self.request.get('id')))
         self.response.write(message.data)
+
+class DeleteSpecificMessageById(webapp2.RequestHandler):
+    def get(self):
+        message=Message.get_by_id(int(self.request.get('id')))
+        message.key.delete()
+        self.response.write("specific 'id' deleted")
+
+class DeleteAllMessageById(webapp2.RequestHandler):
+    def get(self):
+        message_list=Message.query()
+        for message in message_list:
+            message.key.delete()
+        self.response.write('all input deleted')
+
+class ModifySpecificMessageById(webapp2.RequestHandler):
+    def post(self):
+        message=Message.get_by_id(int(self.request.get('id')))
+        message.data=self.request.get('data')
+        message.put()
+        self.response.write('data replaced')
         
 class GetAll(webapp2.RequestHandler):
     def get(self):
@@ -215,9 +271,12 @@ class GetAllCompass(webapp2.RequestHandler):
             self.response.write(",")
             self.response.write(compass.timestamp)
             self.response.write("\n")
-                        
+
+
 app = webapp2.WSGIApplication([
     ('/', MainHandler),    
+    ('/messages', MessageHandler),
+    ('/messages/(\d+)', MessageHandlerById),  
     ('/add', AddMessage),
     ('/get', GetMessageById),
     ('/getall', GetAll),    
@@ -235,5 +294,8 @@ app = webapp2.WSGIApplication([
     ('/getallcoms', GetAllCompass),
     ('/delete', Delete),
     ('/delete1', DeleteOne)
+    ('/deletespecific',DeleteSpecificMessageById),
+    ('/deleteall',DeleteAllMessageById),
+    ('/modifyspecific', ModifySpecificMessageById)
 
 ], debug=True)
